@@ -6,38 +6,50 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class TcpServer {
+	private static ServerSocket serverSocket;
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args){
 
-		
-		ServerSocket serverSocket = new ServerSocket(27653);
-
+		int port = Integer.parseInt(args[0]);
+		if(validatePort(port)) {
+			try {
+				serverSocket = new ServerSocket(port);
+				run(port);
+				serverSocket.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}else {
+			throw new RuntimeException("Bad port");
+		}
+	}
+	
+	public static boolean validatePort(int port) {
+		return port > 1023 && port < 65535;
+	}
+	
+	private static void run(int port) throws IOException {
 		Socket socket = serverSocket.accept();
-
-		byte[] hello = String.format("%200s", "hello").getBytes();
-		socket.getOutputStream().write(hello);
-
-		byte[] question = new byte[200];
-		socket.getInputStream().read(question);
-
-		String questionString = new String(question).trim();
 		
-		if (!questionString.contains("date")) {
+		byte[] hello = String.format("%200s", "What would you like me to echo?").getBytes();
+		socket.getOutputStream().write(hello);
+		
+		byte[] echoMessage = new byte[200];
+		socket.getInputStream().read(echoMessage);
+		
+		String echoString = new String(echoMessage).trim();
+		System.out.println("Recieved from client: " + echoString.trim());
+		
+		if (echoString.isEmpty() || echoString == null) {
 			throw new RuntimeException("Bad request");
 		}
+		System.out.println("Sending to client: " + echoString.trim());
+
+		String response = echoString;
+		byte[] responseBuffer = String.format("%200s", response).getBytes();
 		
-		long currentDateTime = System.currentTimeMillis();
-		byte[] dateResponse = String.format("%200d", currentDateTime).getBytes();
-		
-		socket.getOutputStream().write(dateResponse);
+		socket.getOutputStream().write(responseBuffer);
 		socket.close();
-
-		// Send Size: 200 Bytes
-
-		// Server: Talks first and says "Hello"
-		// Client: What's the DateTime
-		// Server: Sup - Time and Date
-		// Close:
 	}
 	
 }

@@ -40,13 +40,6 @@ public class TcpClient {
 		
 		System.out.println("Server time is '" + displayableTime + "'");
 		socket.close();
-		
-		// Send Size: 200 Bytes
-
-		// Server: Talks first and says "Hello"
-		// Client: What's the DateTime
-		// Server: Sup - Time and Date
-		// Close:
 
 	}
 	
