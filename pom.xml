@@ -6,17 +6,4 @@
 	<artifactId>tcp-echo-chamber</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
-	<dependencies>
-
-		<dependency>
-			<groupId>com.google.apis</groupId>
-			<artifactId>google-api-services-translate</artifactId>
-			<version>v2-rev51-1.25.0</version>
-		</dependency>
-
-
-
-
-	</dependencies>
-
 </project>
