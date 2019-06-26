@@ -8,7 +8,14 @@ import java.net.Socket;
 public class TcpServer {
 
 	public static void main(String[] args) throws IOException {
-
+		/*
+		 * Wait for message
+		 * Read string from client
+		 * display "received from client:" followed by message
+		 * display "sending to client:" followed by message
+		 * Send back to client
+		 * continuous
+		 */
 		
 		ServerSocket serverSocket = new ServerSocket(27653);
 
