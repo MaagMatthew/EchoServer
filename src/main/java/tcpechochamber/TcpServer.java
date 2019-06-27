@@ -17,7 +17,7 @@ public class TcpServer {
 
 
 		int port = Integer.parseInt(args[0]);
-		if (validatePort(port)) {
+		while (validatePort(port)) {
 			try {
 				serverSocket = new ServerSocket(port);
 				run(port);
@@ -25,9 +25,8 @@ public class TcpServer {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-		} else {
-			throw new RuntimeException("Bad port");
 		}
+			throw new RuntimeException("Bad port");
 	}
 
 	public static boolean validatePort(int port) {
@@ -36,9 +35,13 @@ public class TcpServer {
 
 	private static void run(int port) throws IOException {
 		Socket socket = serverSocket.accept();
-
+		
+		System.out.println("Connected to client");
+		
 		byte[] hello = String.format("%200s", "What would you like me to echo?").getBytes();
+		System.out.println("Sending message to client");
 		socket.getOutputStream().write(hello);
+		System.out.println("Message sent to client. Waiting for response...");
 
 		byte[] echoMessage = new byte[200];
 		socket.getInputStream().read(echoMessage);
